@@ -64,6 +64,7 @@ class Box(BaseBox):
     def _get_box_info(self) -> dict():
         return requests.get(self._box_info + str(self._product_id)).json()['data']
 
+    #ToDo: async
     @property
     @abstractmethod
     def _buy_box(self):

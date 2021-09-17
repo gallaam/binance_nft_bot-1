@@ -1,4 +1,4 @@
-import time
+import datetime
 
 import requests
 
@@ -28,8 +28,22 @@ if response.status_code == 200:
 else:
     print('Something wrong...')
     print('Check please: COOKIE, CSRFTOKEN, headers')
+
+
+
+start_sale = box._get_box_info['startTime']
+start_sale = datetime.datetime.fromtimestamp(start_sale/1000)
+
+# ToDo: async
+while True:
+    current_time = datetime.datetime.today()
+
+    if start_sale <= current_time:
+        print('Start buying')
+        while True:
+            response = box._buy_box
+            print(response)
+
+
 #################################################
-
-print(box._get_box_info)
-
 # ToDo: Tests
