@@ -7,3 +7,4 @@ venv/
 .idea
 .env.local
 .gitignore
+settings.py
