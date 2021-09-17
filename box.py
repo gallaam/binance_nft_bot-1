@@ -1,6 +1,7 @@
 import json
 from abc import abstractmethod
 from collections import defaultdict
+from datetime import datetime
 from typing import Optional, Union
 
 import requests
@@ -63,6 +64,13 @@ class Box(BaseBox):
     @abstractmethod
     def _get_box_info(self) -> dict():
         return requests.get(self._box_info + str(self._product_id)).json()['data']
+
+    @property
+    @abstractmethod
+    def _get_start_sale_time(self):
+        start_sale = self._get_box_info['startTime']
+        start_sale_time = datetime.fromtimestamp(start_sale/1000)
+        return start_sale_time
 
     #ToDo: async
     @property
