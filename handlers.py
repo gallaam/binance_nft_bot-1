@@ -1,4 +1,5 @@
 import requests
+from datetime import datetime
 
 from settings import headers
 from user.urls import user_info
@@ -17,3 +18,13 @@ def headers_is_right() -> bool:
         print('Something wrong...')
         print('Check please: COOKIE, CSRFTOKEN, headers')
         return False
+
+def send_requests_to_buy(box, start_sale_time: datetime):
+    while True:
+        current_time = datetime.today()
+
+        if start_sale_time >= current_time:
+            print('Start buying')
+            while True:
+                response = box._buy_box
+                print(response)
