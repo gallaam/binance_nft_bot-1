@@ -1,3 +1,5 @@
+import asyncio
+
 from box import BaseBox, Box
 from handlers import send_requests_to_buy
 
@@ -15,4 +17,8 @@ box = Box(product_id=product_id, amount=amount_boxes)
 start_sale_time = box._get_start_sale_time
 
 print('Waiting for start')
-send_requests_to_buy(box, start_sale_time)
+
+# ToDo: send 8 requests per second
+# send_requests_to_buy(box, start_sale_time)
+
+asyncio.run(box._buy_box)
