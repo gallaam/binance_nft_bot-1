@@ -1,14 +1,12 @@
 import json
 
-from typing import Dict
-
 
 class Headers:
-    user_agent: str = 'Mozilla/5.0 (X11; Linux x86_64)' # Your own user-agent
-    clienttype: str = 'web'
-    cookie: str = 'COOKIE'.encode('utf-8')
-    csrftoken: str = 'CSRFTOKEN'
-    content_type: str = 'application/json'
+    user_agent: str
+    clienttype: str
+    cookie: str
+    csrftoken: str
+    content_type: str
 
 
 class Body:
@@ -26,4 +24,4 @@ class RequestBoxInfo(BaseRequest):
 
 class RequestBoxBuy(BaseRequest):
     headers: dict
-    json: Dict[str, json.dumps(dict())]
+    data: json.dumps(dict())
