@@ -72,12 +72,11 @@ class Box(BaseBox):
         start_sale_time = datetime.fromtimestamp(start_sale/1000)
         return start_sale_time
 
-    #ToDo: async
     @property
     @abstractmethod
     def _buy_box(self):
         response = requests.post(
             self._box_buy, headers=self._headers,
-            json={'data': json.dumps(self._body)}
+            data=json.dumps(self._body)
         )
         return response
