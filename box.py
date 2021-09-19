@@ -4,6 +4,7 @@ from collections import defaultdict
 from datetime import datetime
 from typing import Optional, Union
 
+import aiohttp
 import requests
 
 from handlers import event_is_not_over
@@ -44,10 +45,13 @@ class BaseBox:
             print(f'{box_num}. {value["name"]}')
 
 
-# ToDo: arguments are NOT require
 class Box(BaseBox):
 
-    def __init__(self, product_id: Optional[Union[str, int]], amount: int):
+    def __init__(
+        self,
+        amount: int=0,
+        product_id: Optional[Union[str, int]]='',
+    ):
         super().__init__()
         self._box_info: str = 'https://www.binance.com/bapi/nft/v1/friendly/nft/mystery-box/detail?productId='
         self._box_buy: str = 'https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase'
@@ -75,9 +79,10 @@ class Box(BaseBox):
 
     @property
     @abstractmethod
-    def _buy_box(self):
-        response = requests.post(
-            self._box_buy, headers=self._headers,
-            data=json.dumps(self._body)
-        )
-        return response
+    async def _buy_box(self):
+        async with aiohttp.ClientSession() as session:
+            async with session.post(
+                self._box_buy, headers=headers, data=json.dumps(self._body)
+            ) as resp:
+                r = await resp.json()
+                print(r)
