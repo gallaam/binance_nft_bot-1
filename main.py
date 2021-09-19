@@ -1,10 +1,5 @@
-import datetime
-
-import requests
-
-from settings import headers
-from user.urls import user_info
-from box import Box, BaseBox
+from box import BaseBox, Box
+from handlers import send_requests_to_buy
 
 
 box_info = BaseBox()
@@ -17,33 +12,7 @@ amount_boxes = int(input('\nКоличество коробок (1-20): '))
 
 product_id = avalible_boxes[selected_box]['product_id']
 box = Box(product_id=product_id, amount=amount_boxes)
+start_sale_time = box._get_start_sale_time
 
-
-#################################################
-# ToDo: Refactoring (Вынести в отдельную функцию)
-response = requests.post(user_info, headers=headers)
-
-if response.status_code == 200:
-    print('Successfully connected')
-else:
-    print('Something wrong...')
-    print('Check please: COOKIE, CSRFTOKEN, headers')
-
-
-
-start_sale = box._get_box_info['startTime']
-start_sale = datetime.datetime.fromtimestamp(start_sale/1000)
-
-# ToDo: async
-while True:
-    current_time = datetime.datetime.today()
-
-    if start_sale <= current_time:
-        print('Start buying')
-        while True:
-            response = box._buy_box
-            print(response)
-
-
-#################################################
-# ToDo: Tests
+print('Waiting for start')
+send_requests_to_buy(box, start_sale_time)
