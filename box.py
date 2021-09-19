@@ -44,6 +44,7 @@ class BaseBox:
             print(f'{box_num}. {value["name"]}')
 
 
+# ToDo: arguments are NOT require
 class Box(BaseBox):
 
     def __init__(self, product_id: Optional[Union[str, int]], amount: int):
