@@ -1,3 +1,4 @@
+PROXY = ''
 CSRFTOKEN = ''
 COOKIE = ''
 
