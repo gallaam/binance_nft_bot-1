@@ -9,7 +9,7 @@ import requests
 
 from handlers import event_is_not_over
 from schemas import Body, Headers
-from settings import headers
+from settings import PROXY, headers
 
 
 class BaseBox:
@@ -82,7 +82,9 @@ class Box(BaseBox):
     async def _buy_box(self):
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                self._box_buy, headers=headers, data=json.dumps(self._body)
+                self._box_buy, headers=headers,
+                data=json.dumps(self._body),
+                proxy=f'http://{PROXY}',
             ) as resp:
                 r = await resp.json()
                 print(r)
