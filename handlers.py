@@ -1,3 +1,5 @@
+import threading
+import time
 from datetime import datetime
 
 import requests
@@ -20,10 +22,16 @@ def headers_is_right() -> bool:
         print('Check please: COOKIE, CSRFTOKEN, headers')
         return False
 
-async def send_requests_to_buy(box, start_sale_time: datetime):
+def send_requests_to_buy(box, start_sale_time: datetime):
+    threads = list()
     while True:
         current_time = datetime.today()
         if start_sale_time <= current_time:
-            print('Start buying')
-            while True:
-                await box._buy_box
+            for _ in range(1, 10000):
+                request = threading.Thread(target=box._buy_box)
+                request.start()
+                threads.append(request)
+                time.sleep(0.1)
+
+            for thread in threads:
+                thread.join()
