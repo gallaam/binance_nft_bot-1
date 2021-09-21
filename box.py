@@ -4,7 +4,6 @@ from collections import defaultdict
 from datetime import datetime
 from typing import Optional, Union
 
-import aiohttp
 import requests
 
 from handlers import event_is_not_over
@@ -77,14 +76,11 @@ class Box(BaseBox):
         start_sale_time = datetime.fromtimestamp(start_sale/1000)
         return start_sale_time
 
-    @property
     @abstractmethod
-    async def _buy_box(self):
-        async with aiohttp.ClientSession() as session:
-            async with session.post(
-                self._box_buy, headers=headers,
-                data=json.dumps(self._body),
-                proxy=f'http://{PROXY}',
-            ) as resp:
-                r = await resp.json()
-                print(r)
+    def _buy_box(self):
+        response = requests.post(
+            self._box_buy, headers=self._headers,
+            data=json.dumps(self._body), proxies={'http': f'http://{PROXY}'}
+        )
+        print(response.json())
+        return response
