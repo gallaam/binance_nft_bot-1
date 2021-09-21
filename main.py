@@ -1,5 +1,3 @@
-import asyncio
-
 from box import BaseBox, Box
 from handlers import send_requests_to_buy
 
@@ -18,5 +16,4 @@ start_sale_time = box._get_start_sale_time
 
 
 print('Waiting for start')
-# ToDo: requests are very slow
-asyncio.run(send_requests_to_buy(box, start_sale_time))
+send_requests_to_buy(box, start_sale_time)
