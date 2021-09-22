@@ -1,4 +1,4 @@
-V 0.9.1
+V 1.0
 Bot for automated buying boxes on Binance
 
 В settings.py выставляем свои COOKIE и свой CSRFTOKEN
