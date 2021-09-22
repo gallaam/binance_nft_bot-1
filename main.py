@@ -1,11 +1,11 @@
 from box import BaseBox, Box
-from handlers import send_requests_to_buy
+from handlers import send_requests_to_buy, headers_is_right
 
 
 box_info = BaseBox()
 avalible_boxes = box_info.get_avalible_boxes()
 box_info.log_info_boxes(avalible_boxes)
-
+headers_is_right()
 
 selected_box = str(input('\nНомер коробки: '))
 amount_boxes = int(input('\nКоличество коробок (1-20): '))
