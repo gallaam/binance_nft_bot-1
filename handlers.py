@@ -15,7 +15,7 @@ def headers_is_right() -> bool:
     response = requests.post(user_info, headers=headers)
 
     if response.status_code == 200:
-        print('Successfully connected')
+        print('Successfully connected\n')
         return True
     else:
         print('Something wrong...')
