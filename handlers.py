@@ -31,6 +31,7 @@ def send_requests_to_buy(box, start_sale_time: datetime):
                 request = threading.Thread(target=box._buy_box)
                 request.start()
                 threads.append(request)
+                time.sleep(0.05)
 
             for thread in threads:
                 thread.join()
