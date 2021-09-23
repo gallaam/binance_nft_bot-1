@@ -1,5 +1,5 @@
 from box import BaseBox, Box
-from handlers import send_requests_to_buy, headers_is_right
+from handlers import headers_is_right, send_requests_to_buy
 
 
 headers_is_right()
@@ -9,7 +9,7 @@ avalible_boxes = box_info.get_avalible_boxes()
 box_info.log_info_boxes(avalible_boxes)
 
 selected_box = str(input('\nНомер коробки: '))
-amount_boxes = int(input('\nКоличество коробок (1-20): '))
+amount_boxes = int(input('\nКоличество коробок (О количестве см. на сайте binance): '))
 
 product_id = avalible_boxes[selected_box]['product_id']
 box = Box(product_id=product_id, amount=amount_boxes)
