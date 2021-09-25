@@ -8,7 +8,7 @@ import requests
 
 from handlers import event_is_not_over
 from schemas import Body, Headers
-from settings import PROXY, headers
+from settings import headers
 
 
 class BaseBox:
@@ -71,16 +71,17 @@ class Box(BaseBox):
 
     @property
     @abstractmethod
-    def _get_start_sale_time(self):
+    def _get_start_sale_time(self) -> datetime:
         start_sale = self._get_box_info['startTime']
         start_sale_time = datetime.fromtimestamp(start_sale/1000)
         return start_sale_time
 
     @abstractmethod
-    def _buy_box(self):
+    def _buy_box(self, proxy) -> json:
         response = requests.post(
             self._box_buy, headers=self._headers,
-            data=json.dumps(self._body), proxies={'http': f'http://{PROXY}'}
+            data=json.dumps(self._body),
+            proxies={'http': f'http://{proxy}/'}
         )
         print(response.json())
         return response
