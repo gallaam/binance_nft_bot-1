@@ -1,4 +1,3 @@
-PROXY = ''
 CSRFTOKEN = ''
 COOKIE = ''
 
@@ -8,5 +7,6 @@ headers = {
     'cookie': COOKIE.encode('UTF-8'),
     'csrftoken': CSRFTOKEN,
     'content-type': 'application/json',
-    'bnc-uuid': '53ab0ad4-06b1-4a2d-8b69-eefd495fc704'
+    'bnc-uuid': '',
+    'device-info' : '',
 }
