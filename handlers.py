@@ -29,7 +29,6 @@ def get_random_proxy():
 
     return random.choice(proxies)
 
-# ToDo 2: experiment with time.sleep(x)
 def send_requests_to_buy(box, start_sale_time: datetime):
     threads = list()
     while True:
@@ -42,7 +41,7 @@ def send_requests_to_buy(box, start_sale_time: datetime):
                 )
                 request.start()
                 threads.append(request)
-                time.sleep(0.06)
+                time.sleep(0.07)
 
             for thread in threads:
                 thread.join()
