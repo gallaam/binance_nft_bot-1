@@ -1,4 +1,4 @@
-from settings import BINANCE_SITEKEY
+from settings import BINANCE_SITEKEY, CAPTCHA_API_KEY
 
 from twocaptcha import TwoCaptcha
 
@@ -7,7 +7,7 @@ def resolve_captcha(product_id: str) -> str:
     """result: dict = {'captchaId': '12345678', 'code': '03dAf...'}"""
 
     # your own API KEY from https://2captcha.com/enterpage
-    solver = TwoCaptcha(apiKey='')
+    solver = TwoCaptcha(apiKey=CAPTCHA_API_KEY)
     url = 'https://www.binance.com/en/nft/blindBox/detail?productId='
 
     result = solver.recaptcha(
