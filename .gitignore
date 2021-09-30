@@ -8,3 +8,4 @@ venv/
 .env.local
 .gitignore
 settings.py
+proxies.txt
