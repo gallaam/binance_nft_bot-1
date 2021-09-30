@@ -6,6 +6,7 @@ from typing import Optional, Union
 
 import requests
 
+from recaptcha import resolve_captcha
 from handlers import event_is_not_over
 from schemas import Body, Headers
 from settings import headers
@@ -58,7 +59,7 @@ class Box(BaseBox):
         self._product_id = product_id
         self._amount = amount
 
-        self._headers: Headers = headers
+        self._headers: dict = headers
         self._body: Body = {
             'productId': product_id,
             'number': amount
@@ -78,6 +79,9 @@ class Box(BaseBox):
 
     @abstractmethod
     def _buy_box(self, proxy) -> json:
+        # resolve invisible recaptcha V3
+        self._headers['x-nft-checkbot-token'] = resolve_captcha(self._product_id)
+
         response = requests.post(
             self._box_buy, headers=self._headers,
             data=json.dumps(self._body),
