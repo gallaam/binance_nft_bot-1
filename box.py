@@ -8,7 +8,7 @@ import requests
 
 from recaptcha import resolve_captcha
 from handlers import event_is_not_over
-from schemas import Body, Headers
+from schemas import Body
 from settings import headers
 
 
