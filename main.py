@@ -8,8 +8,8 @@ box_info = BaseBox()
 avalible_boxes = box_info.get_avalible_boxes()
 box_info.log_info_boxes(avalible_boxes)
 
-selected_box = str(input('\nНомер коробки: '))
-amount_boxes = int(input('\nКоличество коробок (О количестве см. на сайте binance): '))
+selected_box = str(input('\nNumber of box: '))
+amount_boxes = int(input('\nAmount boxes: '))
 
 product_id = avalible_boxes[selected_box]['product_id']
 box = Box(product_id=product_id, amount=amount_boxes)
