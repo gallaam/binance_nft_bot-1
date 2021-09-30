@@ -1,4 +1,5 @@
 import random
+import sys
 import threading
 import time
 from datetime import datetime, timedelta
@@ -24,24 +25,32 @@ def headers_is_right() -> bool:
         return False
 
 def get_random_proxy():
-    with open('proxies.txt', 'r') as file:
-        proxies = [proxy.replace('\n', '') for proxy in file.readlines()]
+    try:
+        with open('proxies.txt', 'r') as file:
+            proxies = [proxy.replace('\n', '') for proxy in file.readlines()]
+            return random.choice(proxies)
+    except FileExistsError:
+        print('Create file `proxies.txt` in file `nft_bot`')
+        return ''
 
-    return random.choice(proxies)
-
+# ToDo: refactoring
 def send_requests_to_buy(box, start_sale_time: datetime):
     threads = list()
     while True:
         current_time = datetime.today()
-        if start_sale_time <= (current_time - timedelta(seconds=0.1)):
-            for _ in range(1, 1000):
+        if start_sale_time <= (current_time + timedelta(seconds=12)):
+            for _ in range(1, 10000):
                 request = threading.Thread(
                     target=box._buy_box,
                     args=(get_random_proxy(),)
                 )
                 request.start()
                 threads.append(request)
-                time.sleep(0.07)
+                time.sleep(0.13)
+
+                if start_sale_time <= (current_time - timedelta(seconds=3)):
+                    print('The sale is over!')
+                    sys.exit(0)
 
             for thread in threads:
                 thread.join()
