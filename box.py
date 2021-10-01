@@ -15,6 +15,7 @@ from settings import headers
 class BaseBox:
 
     def __init__(self):
+        self._box_info: str = 'https://www.binance.com/bapi/nft/v1/friendly/nft/mystery-box/detail?productId='
         self._box_list = 'https://www.binance.com/bapi/nft/v1/public/nft/mystery-box/list?page=1&size=15'
     
     def get_list_boxes(self) -> dict:
@@ -26,23 +27,28 @@ class BaseBox:
         box_num = 0
 
         for box in boxes:
+            product_id = box['productId']
+            response = requests.get(self._box_info + product_id, headers=headers).json()['data']
             status = box['status']
             name = box['name']
-            product_id = box['productId']
+            selling_delay = response['secondMarketSellingDelay']
+            limit_amount = response['limitPerTime']
 
             if event_is_not_over(status):
                 box_num += 1
                 avalible_boxes[str(box_num)] = {
                     'name': name,
-                    'product_id': product_id
+                    'product_id': product_id,
+                    'selling_delay': selling_delay,
+                    'limit_amount': limit_amount
                 }
-        
+
         return avalible_boxes
-    
+
     @staticmethod
     def log_info_boxes(avalible_boxes: dict) -> None:
         for box_num, value in avalible_boxes.items():
-            print(f'{box_num}. {value["name"]}')
+            print(f'{box_num}. {value["name"]}\n  Selling delay on market: {value["selling_delay"]} hours\n')
 
 
 class Box(BaseBox):
@@ -53,7 +59,6 @@ class Box(BaseBox):
         product_id: Optional[Union[str, int]]='',
     ):
         super().__init__()
-        self._box_info: str = 'https://www.binance.com/bapi/nft/v1/friendly/nft/mystery-box/detail?productId='
         self._box_buy: str = 'https://www.binance.com/bapi/nft/v1/private/nft/mystery-box/purchase'
 
         self._product_id = product_id
