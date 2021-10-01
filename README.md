@@ -5,7 +5,7 @@ Resolve recaptcha V3:
 1) Registration here > https://2captcha.com?from=12721485
 2) Go here -> https://2captcha.com/enterpage and take your own AKI_KEY ![image](https://user-images.githubusercontent.com/84085341/135535026-bcb8ff40-1b39-49bb-b77d-360a4eee9b67.png)
 
-3) Deposit 3$ on your account on https://2captcha.com/
+3) Deposit 3$ on your account on https://2captcha.com/ (This need to resolve reCaptcha V3)
 4) Add your own AKI_KEY in `settings.py` (line 2): `CAPTCHA_API_KEY = 'AKI_KEY'`
 
 Settings:
