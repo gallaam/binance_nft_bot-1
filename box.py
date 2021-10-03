@@ -83,9 +83,9 @@ class Box(BaseBox):
         return start_sale_time
 
     @abstractmethod
-    def _buy_box(self, proxy) -> json:
+    def _buy_box(self, proxy: str, captcha: str) -> json:
         # resolve invisible recaptcha V3
-        self._headers['x-nft-checkbot-token'] = resolve_captcha(self._product_id)
+        self._headers['x-nft-checkbot-token'] = captcha
 
         response = requests.post(
             self._box_buy, headers=self._headers,
