@@ -1,11 +1,17 @@
 import sys
 import threading
 import time
+
 from datetime import datetime, timedelta
 
 import requests
 
+from recaptcha import resolve_captcha
 from settings import PROXY, headers
+
+
+COUNT_REQUESTS = 30
+captcha_results = list()
 
 
 def event_is_not_over(status: int) -> bool:
@@ -23,24 +29,43 @@ def headers_is_right() -> bool:
         print('Check please: COOKIE, CSRFTOKEN, headers')
         return False
 
-# ToDo: refactoring
-def send_requests_to_buy(box, start_sale_time: datetime):
+def wrapped_captcha(product_id, captcha_results):
+    captcha = resolve_captcha(product_id)
+    captcha_results.append(captcha)
+
+def prepare_captcha(product_id):
+    threads = [None] * COUNT_REQUESTS
+
+    for i in range(len(threads)):
+        threads[i] = threading.Thread(
+            target=wrapped_captcha,
+            args=(product_id, captcha_results),
+        )
+        threads[i].start()
+
+    for i in range(len(threads)):
+        threads[i].join()
+
+    return captcha_results
+
+def send_requests_to_buy(box, start_sale_time: datetime, product_id: str):
     threads = list()
+    captcha_list = prepare_captcha(product_id)
     while True:
         current_time = datetime.today()
-        if start_sale_time <= (current_time + timedelta(seconds=12)):
-            for _ in range(1, 10000):
+        if start_sale_time <= (current_time + timedelta(seconds=0.1)):
+            print('Start sale')
+            for _ in range(0, COUNT_REQUESTS):
                 request = threading.Thread(
                     target=box._buy_box,
-                    args=(PROXY,)
+                    args=(PROXY, captcha_list.pop())
                 )
                 request.start()
                 threads.append(request)
-                time.sleep(0.13)
-
-                if start_sale_time <= (current_time - timedelta(seconds=3)):
-                    print('The sale is over!')
-                    sys.exit(0)
+                time.sleep(0.15)
 
             for thread in threads:
                 thread.join()
+
+            print('Sale has been ended')
+            sys.exit(0)
