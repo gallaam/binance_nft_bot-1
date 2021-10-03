@@ -16,4 +16,4 @@ box = Box(product_id=product_id, amount=amount_boxes)
 start_sale_time = box._get_start_sale_time
 
 print('Waiting for start')
-send_requests_to_buy(box, start_sale_time)
+send_requests_to_buy(box, start_sale_time, product_id)
