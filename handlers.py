@@ -1,4 +1,3 @@
-import random
 import sys
 import threading
 import time
@@ -6,7 +5,7 @@ from datetime import datetime, timedelta
 
 import requests
 
-from settings import headers
+from settings import PROXY, headers
 
 
 def event_is_not_over(status: int) -> bool:
@@ -24,15 +23,6 @@ def headers_is_right() -> bool:
         print('Check please: COOKIE, CSRFTOKEN, headers')
         return False
 
-def get_random_proxy():
-    try:
-        with open('proxies.txt', 'r') as file:
-            proxies = [proxy.replace('\n', '') for proxy in file.readlines()]
-            return random.choice(proxies)
-    except FileExistsError:
-        print('Create file `proxies.txt` in file `nft_bot`')
-        return ''
-
 # ToDo: refactoring
 def send_requests_to_buy(box, start_sale_time: datetime):
     threads = list()
@@ -42,7 +32,7 @@ def send_requests_to_buy(box, start_sale_time: datetime):
             for _ in range(1, 10000):
                 request = threading.Thread(
                     target=box._buy_box,
-                    args=(get_random_proxy(),)
+                    args=(PROXY,)
                 )
                 request.start()
                 threads.append(request)
