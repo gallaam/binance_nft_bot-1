@@ -11,6 +11,8 @@ Resolve recaptcha V3:
 Settings:
 1) In `settings.py` put your own CSRFTOKEN, COOKIE : `CSRFTOKEN = 'csrf here'`, `COOKIE = 'cookie here'`
 2) In `settings.py` in `headers` put your `bnc-uuid`, `device-info` and `user-agent`
+3) Set your proxy ![image](https://user-images.githubusercontent.com/84085341/135763230-856faf92-ab73-4670-bb40-fbc3f91667ff.png)
+
 
 E.g. go here - https://www.binance.com/en/nft/blindBox/detail?productId=139168165799316480
 1) Click on right button on mouse then select `inspect`
@@ -18,9 +20,6 @@ E.g. go here - https://www.binance.com/en/nft/blindBox/detail?productId=13916816
 3) Reload page
 4) Click on `auth` - ![image](https://user-images.githubusercontent.com/84085341/135534699-2c61de0a-d85f-4c53-bd7a-92a0d30b4b85.png)
 5) Take info in `Request Headers` - ![image](https://user-images.githubusercontent.com/84085341/135534810-082668e7-757f-45c7-bb5e-2bdef96549d0.png)
-
-Proxy (IS NOT REQUIRE):
-1) username:password@ip_address:port ![image](https://user-images.githubusercontent.com/84085341/135535325-5eb58451-b785-4df3-88e1-a38fcc10b986.png)
 
 Start:
 1) `python3 main.py` or `python main.py`
