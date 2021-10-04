@@ -25,7 +25,7 @@ E.g. go here - https://www.binance.com/en/nft/blindBox/detail?productId=13916816
 
 Start:
 1) `python3 main.py` or `python main.py`
-2) If you have error, try: `pip3 install -r requirements.txt`
+2) If you have error, try: `pip3 install -r requirements.txt`, `pip3 install requests`, `pip3 install 2captcha-python`
 3) Select box ![image](https://user-images.githubusercontent.com/84085341/135535771-1e285214-c75b-41a6-b6f9-2636c975d0de.png)
 4) Select amount ![image](https://user-images.githubusercontent.com/84085341/135763605-2b0ca01d-1a68-4b26-81e7-909909b40cff.png)
 
