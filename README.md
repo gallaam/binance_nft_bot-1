@@ -1,5 +1,7 @@
-V 1.2
+V 1.3
 Bot for automated buying boxes on Binance
+
+Run bot 20 seconds until starts the sale
 
 Resolve recaptcha V3:
 1) Registration here > https://2captcha.com?from=12721485
