@@ -9,8 +9,8 @@ import requests
 from recaptcha import resolve_captcha
 from settings import PROXY, headers
 
-
 COUNT_REQUESTS = 30
+# ToDo: delete global variable
 captcha_results = list()
 
 
@@ -23,12 +23,12 @@ def headers_is_right() -> bool:
 
     if response.status_code == 200:
         print('Successfully connected\n')
-        return True
     else:
         print('Something wrong...')
         print('Check please: COOKIE, CSRFTOKEN, headers')
-        return False
+        sys.exit(1)
 
+# ToDo: make decorator with resolve_captcha
 def wrapped_captcha(product_id, captcha_results):
     captcha = resolve_captcha(product_id)
     captcha_results.append(captcha)
@@ -50,10 +50,17 @@ def prepare_captcha(product_id):
 
 def send_requests_to_buy(box, start_sale_time: datetime, product_id: str):
     threads = list()
-    captcha_list = prepare_captcha(product_id)
     while True:
         current_time = datetime.today()
-        if start_sale_time <= (current_time + timedelta(seconds=0.1)):
+        if start_sale_time <= (current_time + timedelta(seconds=30)):
+            print('Prepare captcha')
+            captcha_list = prepare_captcha(product_id)
+            print('Prepare completed')
+            break
+
+    while True:
+        current_time = datetime.today()
+        if start_sale_time <= (current_time + timedelta(seconds=1)):
             print('Start sale')
             for _ in range(0, COUNT_REQUESTS):
                 request = threading.Thread(
