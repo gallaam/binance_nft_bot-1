@@ -6,12 +6,8 @@ from datetime import datetime, timedelta
 
 import requests
 
-from recaptcha import resolve_captcha
-from settings import PROXY, headers
-
-COUNT_REQUESTS = 30
-# ToDo: delete global variable
-captcha_results = list()
+from recaptcha import Recaptcha
+from settings import COUNT_REQUESTS, PROXY, headers
 
 
 def event_is_not_over(status: int) -> bool:
@@ -28,39 +24,21 @@ def headers_is_right() -> bool:
         print('Check please: COOKIE, CSRFTOKEN, headers')
         sys.exit(1)
 
-# ToDo: make decorator with resolve_captcha
-def wrapped_captcha(product_id, captcha_results):
-    captcha = resolve_captcha(product_id)
-    captcha_results.append(captcha)
-
-def prepare_captcha(product_id):
-    threads = [None] * COUNT_REQUESTS
-
-    for i in range(len(threads)):
-        threads[i] = threading.Thread(
-            target=wrapped_captcha,
-            args=(product_id, captcha_results),
-        )
-        threads[i].start()
-
-    for i in range(len(threads)):
-        threads[i].join()
-
-    return captcha_results
-
 def send_requests_to_buy(box, start_sale_time: datetime, product_id: str):
     threads = list()
+    captcha = Recaptcha(product_id)
+
     while True:
         current_time = datetime.today()
-        if start_sale_time <= (current_time + timedelta(seconds=30)):
+        if start_sale_time >= (current_time + timedelta(seconds=105)):
             print('Prepare captcha')
-            captcha_list = prepare_captcha(product_id)
+            captcha_list = captcha.prepare_captcha()
             print('Prepare completed')
             break
 
     while True:
         current_time = datetime.today()
-        if start_sale_time <= (current_time + timedelta(seconds=1)):
+        if start_sale_time >= (current_time + timedelta(seconds=1.5)):
             print('Start sale')
             for _ in range(0, COUNT_REQUESTS):
                 request = threading.Thread(
